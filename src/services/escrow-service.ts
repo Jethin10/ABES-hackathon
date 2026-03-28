@@ -89,7 +89,11 @@ export class EscrowService {
     }
 
     const reference = `${this.mode.toLowerCase()}:activate:${input.campaignId}:${Date.now()}`;
-    await this.recordEvent(input.campaignId, null, 'CAMPAIGN_REGISTERED', reference, input);
+    try {
+      await this.recordEvent(input.campaignId, null, 'CAMPAIGN_REGISTERED', reference, input);
+    } catch {
+      // In demo/mock modes, campaign launch should not be blocked by telemetry/event persistence.
+    }
     return {
       reference,
       provider: this.mode
