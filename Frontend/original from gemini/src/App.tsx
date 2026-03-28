@@ -8,6 +8,7 @@ import * as THREE from 'three';
 import Lenis from 'lenis';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { api, ApiError, FACEBOOK_APP_ID, GOOGLE_CLIENT_ID, type AuthUser, type CampaignDetail, type CampaignSummary, type SocialProvider, type UserVerification } from './api';
+import equifundMark from './assets/equifund-mark.svg';
 
 const TOKEN_KEY = 'stellaris.original.token';
 const money = (value: number, currency = 'USD') =>
@@ -64,6 +65,40 @@ const loadScript = async (src: string, selector: string) => {
     document.body.appendChild(script);
   });
 };
+
+const EquifundLogo = ({
+  size = 34,
+  showWordmark = true,
+  stacked = false,
+  className = ''
+}: {
+  size?: number;
+  showWordmark?: boolean;
+  stacked?: boolean;
+  className?: string;
+}) => (
+  <div
+    className={[
+      'flex items-center text-white',
+      stacked ? 'flex-col justify-center gap-4 text-center' : 'gap-3',
+      className
+    ].join(' ')}
+  >
+    <div className="relative shrink-0" style={{ width: size, height: size }}>
+      <div className="absolute inset-[-18%] rounded-[28%] bg-white/10 blur-xl opacity-80" />
+      <img
+        src={equifundMark}
+        alt="Equifund logo"
+        className="relative h-full w-full object-contain drop-shadow-[0_0_24px_rgba(255,255,255,0.14)]"
+      />
+    </div>
+    {showWordmark ? (
+      <div className={stacked ? 'text-[13px] tracking-[0.52em] text-white/58 pl-[0.52em]' : 'text-lg font-semibold tracking-[0.12em] text-white/92'}>
+        {stacked ? 'EQUIFUND' : 'Equifund'}
+      </div>
+    ) : null}
+  </div>
+);
 
 const getGoogleAccessToken = async () => {
   if (!GOOGLE_CLIENT_ID) {
@@ -345,16 +380,18 @@ function LoginPage() {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden pt-28 pb-16 px-6">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_30%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_28%)] pointer-events-none" />
+      <div className="absolute left-1/2 top-24 h-40 w-[28rem] -translate-x-1/2 rounded-full bg-white/[0.06] blur-[130px] pointer-events-none" />
       <div className="absolute inset-0 bg-grid-white mask-radial-faded opacity-15 pointer-events-none" />
 
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-        className="max-w-[460px] mx-auto border border-white/10 bg-black/80 backdrop-blur-xl px-8 py-10 md:px-10 md:py-12 relative"
+        className="max-w-[470px] mx-auto border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] shadow-[0_40px_120px_rgba(0,0,0,0.6)] backdrop-blur-xl px-8 py-10 md:px-10 md:py-12 relative overflow-hidden"
       >
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.09),transparent_34%)] pointer-events-none" />
 
         <div className="flex justify-center mb-6">
           <div className="w-9 h-9 border border-white/20 rounded-full flex items-center justify-center text-white/70 text-sm">
@@ -362,9 +399,8 @@ function LoginPage() {
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-3 mb-10">
-          <div className="w-8 h-8 bg-white rounded-sm" />
-          <span className="font-bold text-2xl tracking-tight">Equifund</span>
+        <div className="mb-10">
+          <EquifundLogo size={84} stacked className="mx-auto" />
         </div>
 
         <div className="text-center mb-10">
@@ -744,9 +780,11 @@ const Navbar = () => {
       transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${scrolled ? 'bg-black/70 backdrop-blur-2xl border-b border-white/10 py-4 shadow-2xl' : 'bg-transparent py-6 border-b border-transparent mix-blend-difference'}`}
     >
-      <Link to="/" className="flex items-center gap-2 cursor-pointer group">
-        <div className="w-6 h-6 bg-white rounded-sm group-hover:scale-110 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
-        <span className="font-bold text-lg tracking-tight">Equifund</span>
+      <Link to="/" className="cursor-pointer group">
+        <EquifundLogo
+          size={30}
+          className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
+        />
       </Link>
       <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
         {['Protocol', 'Yield', 'Governance'].map((item) => (
@@ -1374,10 +1412,7 @@ function LandingPage() {
       {/* --- Footer --- */}
       <footer className="border-t border-white/10 py-12 bg-black relative z-20">
         <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-5 h-5 bg-white rounded-sm" />
-            <span className="font-bold tracking-tight">Equifund</span>
-          </div>
+          <EquifundLogo size={28} />
           <div className="flex gap-8 text-sm text-gray-500 font-mono">
             <a href="#" className="hover:text-white transition-colors">Twitter</a>
             <a href="#" className="hover:text-white transition-colors">GitHub</a>
