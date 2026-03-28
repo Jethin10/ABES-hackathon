@@ -48,7 +48,7 @@ export class UserService {
     const providerEmail = input.email.toLowerCase();
     const providerUserId = input.providerUserId?.trim() || providerEmail;
     const identity = await this.db.get<{ userId: string }>(`
-      SELECT user_id as userId
+      SELECT user_id as "userId"
       FROM social_identities
       WHERE provider = ? AND (provider_user_id = ? OR provider_email = ?)
     `, [input.provider, providerUserId, providerEmail]);
@@ -78,7 +78,7 @@ export class UserService {
 
   async getPublicUserById(userId: string) {
     const record = await this.db.get<AuthUser>(`
-      SELECT id, full_name as fullName, email, role
+      SELECT id, full_name as "fullName", email, role
       FROM users
       WHERE id = ?
     `, [userId]);
@@ -93,15 +93,15 @@ export class UserService {
   async getUserVerification(userId: string) {
     const verification = await this.db.get<UserVerification>(`
       SELECT
-        user_id as userId,
-        kyc_status as kycStatus,
-        wallet_address as walletAddress,
-        payout_address as payoutAddress,
+        user_id as "userId",
+        kyc_status as "kycStatus",
+        wallet_address as "walletAddress",
+        payout_address as "payoutAddress",
         notes,
-        reviewed_by as reviewedBy,
-        reviewed_at as reviewedAt,
-        created_at as createdAt,
-        updated_at as updatedAt
+        reviewed_by as "reviewedBy",
+        reviewed_at as "reviewedAt",
+        created_at as "createdAt",
+        updated_at as "updatedAt"
       FROM user_verifications
       WHERE user_id = ?
     `, [userId]);
@@ -117,15 +117,15 @@ export class UserService {
     return this.db.all(`
       SELECT
         u.id,
-        u.full_name as fullName,
+        u.full_name as "fullName",
         u.email,
         u.role,
-        uv.kyc_status as kycStatus,
-        uv.wallet_address as walletAddress,
-        uv.payout_address as payoutAddress,
+        uv.kyc_status as "kycStatus",
+        uv.wallet_address as "walletAddress",
+        uv.payout_address as "payoutAddress",
         uv.notes,
-        uv.created_at as createdAt,
-        uv.updated_at as updatedAt
+        uv.created_at as "createdAt",
+        uv.updated_at as "updatedAt"
       FROM user_verifications uv
       INNER JOIN users u ON u.id = uv.user_id
       WHERE uv.kyc_status = 'PENDING'
@@ -186,7 +186,7 @@ export class UserService {
 
   private async findByEmail(email: string) {
     return this.db.get<UserRecord>(`
-      SELECT id, full_name as fullName, email, password_hash as passwordHash, role
+      SELECT id, full_name as "fullName", email, password_hash as "passwordHash", role
       FROM users
       WHERE email = ?
     `, [email.toLowerCase()]);
