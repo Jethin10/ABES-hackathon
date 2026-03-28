@@ -51,7 +51,6 @@ services:
     name: jethin10-abes-hackathon-web
     runtime: static
     plan: free
-    region: singapore
     rootDir: Frontend/original from gemini
     buildCommand: npm ci && npm run build
     staticPublishPath: ./dist
