@@ -132,3 +132,53 @@ npm run check
 npm run build
 npm test
 ```
+
+## Render Deploy
+
+This repo now includes a root [render.yaml](C:\ABES stellaris\render.yaml) Blueprint that creates:
+
+- a Render Postgres database
+- a Node backend web service
+- a static frontend service for `Frontend/original from gemini`
+
+### One-time setup
+
+1. Push the latest repo changes to GitHub.
+2. In Render, choose `New` -> `Blueprint`.
+3. Select this repository.
+4. Confirm the generated resources from [render.yaml](C:\ABES stellaris\render.yaml).
+5. Fill in any prompted secret values you actually want enabled:
+   - `RAZORPAY_KEY_ID`
+   - `RAZORPAY_KEY_SECRET`
+   - `GOOGLE_CLIENT_ID`
+   - `GOOGLE_CLIENT_SECRET`
+   - `FACEBOOK_APP_ID`
+   - `FACEBOOK_APP_SECRET`
+   - `APPLE_CLIENT_ID`
+   - `APPLE_TEAM_ID`
+   - `APPLE_KEY_ID`
+   - `APPLE_PRIVATE_KEY`
+   - `VITE_GOOGLE_CLIENT_ID`
+   - `VITE_FACEBOOK_APP_ID`
+
+### After the first backend deploy
+
+Open a shell for the backend service and run:
+
+```bash
+npm run seed
+```
+
+The seed script is idempotent, so running it again will not duplicate demo users or campaigns.
+
+### Default Render URLs
+
+The Blueprint is preconfigured to use these service URLs:
+
+- Backend: `https://jethin10-abes-hackathon-api.onrender.com`
+- Frontend: `https://jethin10-abes-hackathon-web.onrender.com`
+
+If Render assigns different hostnames because those names are already taken, update:
+
+- backend `CORS_ORIGIN`
+- frontend `VITE_API_BASE_URL`

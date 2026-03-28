@@ -16,7 +16,7 @@
     "check": "tsc --noEmit -p tsconfig.json"
   },
   "engines": {
-    "node": ">=25.0.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "@fastify/cors": "^11.1.0",
