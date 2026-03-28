@@ -50,7 +50,6 @@ services:
   - type: web
     name: jethin10-abes-hackathon-web
     runtime: static
-    plan: free
     rootDir: Frontend/original from gemini
     buildCommand: npm ci && npm run build
     staticPublishPath: ./dist
