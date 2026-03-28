@@ -2041,7 +2041,6 @@ const CreatePage = () => {
           }
         ]
       }, token);
-      await api.publishCampaign(created.campaign.id, token);
       navigate('/founder');
     } catch (err) {
       setSubmitError(err instanceof ApiError ? err.message : 'Unable to deploy campaign.');
