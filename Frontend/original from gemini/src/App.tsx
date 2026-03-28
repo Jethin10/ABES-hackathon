@@ -345,13 +345,9 @@ function LoginPage() {
     setIsLoading(true);
     setError(null);
     try {
-      if (mode === 'founder') {
-        await login('founder@stellaris.dev', 'secret-pass-founder');
-        navigate('/founder', { replace: true });
-      } else {
-        await login('backer1@stellaris.dev', 'secret-pass-backer1');
-        navigate('/investor', { replace: true });
-      }
+      const auth = await api.demoLogin(mode === 'founder' ? 'FOUNDER' : 'INVESTOR');
+      localStorage.setItem(TOKEN_KEY, auth.token);
+      window.location.href = mode === 'founder' ? '/founder' : '/investor';
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Unable to launch the judge demo.');
     } finally {
@@ -437,7 +433,7 @@ function LoginPage() {
               className="border border-white/10 bg-white/[0.03] px-4 py-4 text-white font-semibold hover:bg-white/[0.06] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <div className="flex items-center justify-center gap-3">
-                <span>{item.provider === 'GOOGLE' ? 'G' : 'Apple'}</span>
+                <span>{item.provider === 'GOOGLE' ? 'G' : 'A'}</span>
                 <span>{item.provider === 'GOOGLE' ? 'Google' : 'Apple'}</span>
               </div>
             </button>

@@ -211,6 +211,13 @@ export const api = {
     });
   },
 
+  demoLogin(mode: 'FOUNDER' | 'INVESTOR') {
+    return request<LoginResponse>('/auth/demo-login', {
+      method: 'POST',
+      body: JSON.stringify({ mode })
+    });
+  },
+
   socialLogin(payload: {
     provider: SocialProvider;
     providerUserId?: string;

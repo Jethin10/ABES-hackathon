@@ -30,6 +30,10 @@ export const facebookAuthSchema = z.object({
   role: z.enum(['ADMIN', 'FOUNDER', 'BACKER', 'VALIDATOR']).default('BACKER')
 });
 
+export const demoLoginSchema = z.object({
+  mode: z.enum(['FOUNDER', 'INVESTOR'])
+});
+
 export const createCampaignSchema = z.object({
   title: z.string().trim().min(5).max(140),
   summary: z.string().trim().min(10).max(280),
