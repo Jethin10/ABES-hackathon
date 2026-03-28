@@ -4,7 +4,7 @@ services:
     runtime: node
     plan: free
     region: singapore
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci --include=dev && npm run build
     startCommand: npm run start
     healthCheckPath: /api/health
     envVars:
@@ -51,7 +51,7 @@ services:
     name: jethin10-abes-hackathon-web
     runtime: static
     rootDir: Frontend/original from gemini
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci --include=dev && npm run build
     staticPublishPath: ./dist
     routes:
       - type: rewrite
